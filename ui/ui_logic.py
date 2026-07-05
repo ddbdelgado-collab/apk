@@ -10,7 +10,7 @@ def aplicar_estilos_pastel():
     # Establecer un color de fondo pastel para toda la aplicación
     Window.clearcolor = (0.98, 0.96, 0.95, 1)
     
-    Window.size = (360, 640)  
+    # Window.size = (360, 640)  
 
 def build_screen_manager():
     aplicar_estilos_pastel()

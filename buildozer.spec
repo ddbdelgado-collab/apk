@@ -1,10 +1,10 @@
 [app]
 
 # (str) Title of your application
-title = Calculadora
+title = Tesoe Pop
 
 # (str) Package name
-package.name = calculadora
+package.name = tesoepop
 
 # (str) Package domain (needed for android/ios packaging)
 package.domain = org.test
@@ -37,17 +37,17 @@ version = 0.1
 
 # (list) Application requirements
 # comma separated e.g. requirements = sqlite3,kivy
-requirements = python3,kivy,kivymd,pillow
+requirements = python3,kivy,kivymd,pillow,plyer
 
 # (str) Custom source folders for requirements
 # Sets custom source for any requirements with recipes
 # requirements.source.kivy = ../../kivy
 
 # (str) Presplash of the application
-presplash.filename = %(source.dir)s/calcu.png
+presplash.filename = %(source.dir)s/logo.jpeg
 
 # (str) Icon of the application
-icon.filename = %(source.dir)s/calcu.png
+icon.filename = %(source.dir)s/logo.jpeg
 
 # (list) Supported orientations
 # Valid options are: landscape, portrait, portrait-reverse or landscape-reverse

@@ -2,7 +2,6 @@ import ssl
 # Asegura la descarga de recursos por HTTPS de forma segura
 ssl._create_default_https_context = ssl._create_unverified_context
 
-from kivy.uix.behaviors import ButtonBehavior
 from kivy.uix.screenmanager import Screen
 from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.label import Label
@@ -96,10 +95,6 @@ class ModernButton(Button):
         self.font_name = "Roboto"
         self.custom_bg = bg_color
         
-        self.halign = 'center'
-        self.valign = 'middle'
-        self.bind(size=lambda inst, size: setattr(inst, 'text_size', size))
-        
         with self.canvas.before:
             Color(0.8, 0.75, 0.75, 0.4)
             self.shadow = RoundedRectangle(pos=(self.x, self.y - 4), size=self.size, radius=[16])
@@ -122,6 +117,26 @@ class ModernButton(Button):
         else:
             self.bg_color_inst.a = 1.0
             self.shadow.pos = (self.x, self.y - 4)
+
+
+# --- NUEVA PANTALLA TEMPORAL PARA EVITAR CAÍDAS ---
+class ClientOrdersScreen(Screen):
+    """Pantalla de respaldo para que la app no se cierre al presionar 'Mis Pedidos'"""
+    def on_enter(self):
+        self.clear_widgets()
+        with self.canvas.before:
+            Color(0.99, 0.97, 0.95, 1)
+            self.rect_bg = Rectangle(pos=self.pos, size=self.size)
+            
+        layout = BoxLayout(orientation='vertical', padding=30, spacing=20)
+        layout.add_widget(Label(text="Mis Pedidos", font_size=28, bold=True, color=(0.35, 0.2, 0.1, 1), size_hint_y=0.2))
+        layout.add_widget(Label(text="Aquí aparecerá el historial de tus pedidos pronto.", color=(0.5, 0.5, 0.5, 1), halign="center"))
+        
+        btn_back = ModernButton(text="Volver al Perfil", bg_color=(0.45, 0.3, 0.2, 1), size_hint_y=None, height=50)
+        btn_back.bind(on_press=lambda x: setattr(self.manager, 'current', 'profile'))
+        layout.add_widget(btn_back)
+        self.add_widget(layout)
+
 
 # --- PANTALLAS PREVIAS REDISEÑADAS ---
 
@@ -187,12 +202,8 @@ class LoginScreen(Screen):
         
         # Encabezado con branding moderno
         header = BoxLayout(orientation='vertical', size_hint_y=0.25, spacing=5)
-        lbl_welcome = Label(text="¡Bienvenido de nuevo!", font_size=24, bold=True, color=(0.35, 0.2, 0.1, 1), font_name="Roboto", halign="center", valign="middle")
-        lbl_welcome.bind(size=lambda inst, size: setattr(inst, 'text_size', size))
-        lbl_subtitle = Label(text="Ingresa a tu cuenta de Tesoe Pop", font_size=14, color=(0.6, 0.55, 0.5, 1), font_name="Roboto", halign="center", valign="middle")
-        lbl_subtitle.bind(size=lambda inst, size: setattr(inst, 'text_size', size))
-        header.add_widget(lbl_welcome)
-        header.add_widget(lbl_subtitle)
+        header.add_widget(Label(text="¡Bienvenido de nuevo!", font_size=26, bold=True, color=(0.35, 0.2, 0.1, 1), font_name="Roboto"))
+        header.add_widget(Label(text="Ingresa a tu cuenta de Tesoe Pop", font_size=14, color=(0.6, 0.55, 0.5, 1), font_name="Roboto"))
         layout.add_widget(header)
         
         # Formulario
@@ -206,7 +217,7 @@ class LoginScreen(Screen):
         
         # Botones estandarizados con mejores proporciones
         btn_login = ModernButton(text="Iniciar Sesión", bg_color=(0.92, 0.45, 0.55, 1), size_hint_y=None, height=54)
-        btn_login.bind(on_press=lambda x: setattr(self.manager, 'current', 'catalog'))
+        btn_login.bind(on_press=self.verify_login)
         
         btn_go_register = ModernButton(text="¿No tienes cuenta? Regístrate", bg_color=(0.88, 0.84, 0.8, 1), text_color=(0.35, 0.2, 0.1, 1), size_hint_y=None, height=54)
         btn_go_register.bind(on_press=lambda x: setattr(self.manager, 'current', 'register'))
@@ -247,12 +258,8 @@ class RegisterScreen(Screen):
         layout = BoxLayout(orientation='vertical', padding=[30, 35, 30, 25], spacing=12)
         
         header = BoxLayout(orientation='vertical', size_hint_y=0.15, spacing=3)
-        lbl_title = Label(text="Crear Cuenta", font_size=24, bold=True, color=(0.35, 0.2, 0.1, 1), font_name="Roboto", halign="center", valign="middle")
-        lbl_title.bind(size=lambda inst, size: setattr(inst, 'text_size', size))
-        lbl_subtitle = Label(text="Únete y disfruta de los mejores postres", font_size=13, color=(0.6, 0.55, 0.5, 1), font_name="Roboto", halign="center", valign="middle")
-        lbl_subtitle.bind(size=lambda inst, size: setattr(inst, 'text_size', size))
-        header.add_widget(lbl_title)
-        header.add_widget(lbl_subtitle)
+        header.add_widget(Label(text="Crear Cuenta", font_size=26, bold=True, color=(0.35, 0.2, 0.1, 1), font_name="Roboto"))
+        header.add_widget(Label(text="Únete y disfruta de los mejores postres", font_size=13, color=(0.6, 0.55, 0.5, 1), font_name="Roboto"))
         layout.add_widget(header)
         
         # Campos compactos y simétricos
@@ -331,9 +338,7 @@ class ProfileScreen(Screen):
         layout.add_widget(header_box)
         
         # --- SECCIÓN AJUSTES ---
-        lbl_settings = Label(text="Ajustes de la Aplicación", font_size=15, bold=True, color=(0.35, 0.2, 0.1, 1), font_name="Roboto", size_hint_y=None, height=22, halign="center", valign="middle")
-        lbl_settings.bind(size=lambda inst, size: setattr(inst, 'text_size', size))
-        layout.add_widget(lbl_settings)
+        layout.add_widget(Label(text="Ajustes de la Aplicación", font_size=15, bold=True, color=(0.35, 0.2, 0.1, 1), font_name="Roboto", size_hint_y=None, height=22))
         
         self.edit_name = ModernTextInput(hint_text="Nombre Completo", text=CURRENT_USER["name"])
         self.edit_email = ModernTextInput(hint_text="Correo Electrónico", text=CURRENT_USER["email"])
@@ -367,20 +372,15 @@ class ProfileScreen(Screen):
         layout.add_widget(nav_box)
         
         # --- REDES SOCIALES ---
-        lbl_social = Label(text="Síguenos en nuestras Redes", font_size=13, color=(0.6, 0.5, 0.4, 1), font_name="Roboto", size_hint_y=None, height=18, halign="center", valign="middle")
-        lbl_social.bind(size=lambda inst, size: setattr(inst, 'text_size', size))
-        layout.add_widget(lbl_social)
+        layout.add_widget(Label(text="Síguenos en nuestras Redes", font_size=13, color=(0.6, 0.5, 0.4, 1), font_name="Roboto", size_hint_y=None, height=18))
         
         social_box = BoxLayout(orientation='horizontal', spacing=10, size_hint_y=None, height=44)
-        
         btn_fb = ModernButton(text="Facebook", bg_color=(0.23, 0.35, 0.6, 1))
-        btn_fb.bind(on_press=lambda x: self.open_social_link("Facebook", "https://www.facebook.com/share/1Df5DfZN4T/"))
-        
+        btn_fb.bind(on_press=lambda x: self.open_social_link("Facebook"))
         btn_ig = ModernButton(text="Instagram", bg_color=(0.88, 0.26, 0.43, 1))
-        btn_ig.bind(on_press=lambda x: self.open_social_link("Instagram", "https://www.instagram.com/tesoepop?igsh=MWl2NDJ3cmRpNzNldg=="))
-
+        btn_ig.bind(on_press=lambda x: self.open_social_link("Instagram"))
         btn_maps = ModernButton(text="Google Maps", bg_color=(0.2, 0.65, 0.35, 1))
-        btn_maps.bind(on_press=lambda x: self.open_social_link("Google Maps", "https://maps.app.goo.gl/KnynRDGZN8h8wH1Y6?g_st=ac"))
+        btn_maps.bind(on_press=lambda x: self.open_social_link("Google Maps"))
         
         social_box.add_widget(btn_fb)
         social_box.add_widget(btn_ig)
@@ -433,15 +433,9 @@ class ProfileScreen(Screen):
             self.profile_image.source = CURRENT_USER["profile_pic"]
             self.profile_image.reload()
 
-    def open_social_link(self, platform, url):
-        import webbrowser
-        
-        # Muestra el mensaje en la aplicación
-        self.info_lbl.text = f"Abriendo {platform}..."
+    def open_social_link(self, platform):
+        self.info_lbl.text = f"Redirigiendo al {platform} de Tesoe Pop..."
         Clock.schedule_once(self.clear_info_lbl, 2)
-        
-        # Abre el enlace en el navegador predeterminado del dispositivo
-        webbrowser.open(url)
 
     def clear_info_lbl(self, dt):
         self.info_lbl.text = ""

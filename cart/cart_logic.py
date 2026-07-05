@@ -176,7 +176,7 @@ class CartScreen(Screen):
             qty_layout = BoxLayout(size_hint_x=0.35, spacing=4, padding=(0, 4, 0, 4))
             
             btn_minus = IconButton(
-                icon_url="https://cdn-icons-png.flaticon.com/512/43/43625.png",
+                icon_url="imagenes/menos.png",
                 bg_color=(0.85, 0.6, 0.6, 1), radius=[8],
                 on_press_callback=lambda inst, i=idx: self.modify_qty(i, -1)
             )
@@ -184,7 +184,7 @@ class CartScreen(Screen):
             lbl_qty = Label(text=str(item['qty']), color=(0.3, 0.15, 0.05, 1), font_name="Roboto", bold=True, font_size=15, size_hint_x=0.3)
             
             btn_plus = IconButton(
-                icon_url="https://cdn-icons-png.flaticon.com/512/748/748113.png",
+                icon_url="imagenes/añadir",
                 bg_color=(0.6, 0.8, 0.6, 1), radius=[8],
                 on_press_callback=lambda inst, i=idx: self.modify_qty(i, 1)
             )
@@ -195,7 +195,7 @@ class CartScreen(Screen):
             item_box.add_widget(qty_layout)
             
             btn_delete = IconButton(
-                icon_url="https://cdn-icons-png.flaticon.com/512/1214/1214428.png", 
+                icon_url="imagenes/delete.png", 
                 bg_color=(0.85, 0.3, 0.3, 1), 
                 size_hint_x=0.15, 
                 radius=[0, 10, 10, 0],
@@ -332,7 +332,7 @@ class OrderSummaryScreen(Screen):
         # Vinculamos al nuevo método compatible con teléfonos móviles
         self.btn_upload.bind(on_press=self.open_file_chooser)
         
-        camera_icon = AsyncImage(source="https://cdn-icons-png.flaticon.com/512/685/685655.png", size_hint_x=0.2)
+        camera_icon = AsyncImage(source="imagenes/camera.png", size_hint_x=0.2)
         
         upload_btn_layout.add_widget(camera_icon)
         upload_btn_layout.add_widget(self.btn_upload)

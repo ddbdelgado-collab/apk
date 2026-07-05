@@ -27,7 +27,7 @@ CURRENT_USER = {
     "name": "Jnombre y apellido",
     "email": "juan@example.com",
     "phone": "+000000000",
-    "profile_pic": "https://cdn-icons-png.flaticon.com/512/3135/3135715.png", 
+    "profile_pic": "imagenes/fotouser.png", 
     "is_local_pic": False
 }
 
@@ -137,7 +137,7 @@ class SplashScreen(Screen):
         layout = FloatLayout()
         
         self.logo_galleta = AsyncImage(
-            source="https://cdn-icons-png.flaticon.com/512/541/541732.png", 
+            source="imagenes/galletaflotante.png", 
             size_hint=(None, None), size=(140, 140), pos_hint={'center_x': 0.5, 'center_y': 0.6}
         )
         layout.add_widget(self.logo_galleta)

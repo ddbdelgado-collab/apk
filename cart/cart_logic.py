@@ -184,7 +184,7 @@ class CartScreen(Screen):
             lbl_qty = Label(text=str(item['qty']), color=(0.3, 0.15, 0.05, 1), font_name="Roboto", bold=True, font_size=15, size_hint_x=0.3)
             
             btn_plus = IconButton(
-                icon_url="imagenes/añadir",
+                icon_url="imagenes/añadir.png",
                 bg_color=(0.6, 0.8, 0.6, 1), radius=[8],
                 on_press_callback=lambda inst, i=idx: self.modify_qty(i, 1)
             )

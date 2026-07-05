@@ -163,9 +163,9 @@ class AppNavBar(BoxLayout):
         c_cart = (0.4, 0.25, 0.15, 1) if active_tab == "cart" else (0.7, 0.65, 0.6, 1)
         c_profile = (0.4, 0.25, 0.15, 1) if active_tab == "profile" else (0.7, 0.65, 0.6, 1)
         
-        btn_menu = PremiumIconButton(text="Menú", icon_url="https://cdn-icons-png.flaticon.com/512/2311/2311524.png", bg_color=c_menu, radius=[12], on_press_callback=lambda x: setattr(screen_manager, 'current', 'catalog'))
-        btn_cart = PremiumIconButton(text="Carrito", icon_url="https://cdn-icons-png.flaticon.com/512/1170/1170678.png", bg_color=c_cart, radius=[12], on_press_callback=lambda x: setattr(screen_manager, 'current', 'cart'))
-        btn_profile = PremiumIconButton(text="Perfil", icon_url="https://cdn-icons-png.flaticon.com/512/1077/1077114.png", bg_color=c_profile, radius=[12], on_press_callback=lambda x: self.go_profile(screen_manager))
+        btn_menu = PremiumIconButton(text="Menú", icon_url="imagenes/menu.png", bg_color=c_menu, radius=[12], on_press_callback=lambda x: setattr(screen_manager, 'current', 'catalog'))
+        btn_cart = PremiumIconButton(text="Carrito", icon_url="imagenes/cart.png", bg_color=c_cart, radius=[12], on_press_callback=lambda x: setattr(screen_manager, 'current', 'cart'))
+        btn_profile = PremiumIconButton(text="Perfil", icon_url="imagenes/profile.png", bg_color=c_profile, radius=[12], on_press_callback=lambda x: self.go_profile(screen_manager))
         
         self.add_widget(btn_menu)
         self.add_widget(btn_cart)
@@ -274,7 +274,7 @@ class CatalogScreen(Screen):
             
             btn_action = PremiumIconButton(
                 text=btn_text,
-                icon_url="https://cdn-icons-png.flaticon.com/512/4218/4218381.png",
+                icon_url="imagenes/action.png",
                 bg_color=p_bg_color,
                 radius=[10],
                 on_press_callback=lambda instance, p=prod: self.view_details(p) if p.get("stock", 0) > 0 else None
@@ -375,7 +375,7 @@ class ProductDetailScreen(Screen):
             btn_box = BoxLayout(orientation='vertical', spacing=8, size_hint_y=0.20)
             btn_add = PremiumIconButton(
                 text="Añadir al Carrito",
-                icon_url="https://cdn-icons-png.flaticon.com/512/3514/3514491.png",
+                icon_url="imagenes/cart.png",
                 bg_color=(0.15, 0.48, 0.25, 1), radius=[12],
                 on_press_callback=self.add_to_cart
             )
